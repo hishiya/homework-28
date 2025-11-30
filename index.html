@@ -1,22 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>homework-22</title>
+    <title>Memory Game</title>
     <link rel="stylesheet" href="./styles.css">
 </head>
-<body>
-    <div class="slider" id="mySlider">
-    <div class="slider-wrapper">
-        <div class="slide">Слайд 1</div>
-        <div class="slide">Слайд 2</div>
-        <div class="slide">Слайд 3</div>
-    </div>
-    <button class="prev-btn">Назад</button>
-    <button class="next-btn">Вперед</button>
-</div>
 
-<script src="./main.js"></script>
+<body>
+
+    <div id="startScreen" class="start-screen">
+        <h1>Гра на пам'ять 🧠</h1>
+        <p>Запам'ятай порядок фруктів!</p>
+
+        <div class="difficulty-container">
+            <label for="difficultySelect">Обери складність:</label>
+            <select id="difficultySelect">
+                <option value="10">Легко (10 карток)</option>
+                <option value="20">Середньо (20 карток)</option>
+                <option value="30">Важко (30 карток)</option>
+            </select>
+        </div>
+
+        <label class="toggle-container">
+            <input type="checkbox" id="autoPlayCheckbox" checked>
+            <span>Увімкнути авто-гортання слайдів</span>
+        </label>
+
+        <button id="startBtn" class="start-btn">ПОЧАТИ ГРУ</button>
+    </div>
+
+    <div id="gameContainer" style="display: none;">
+        <div id="gameTimer" style="font-size: 24px; text-align: center; margin-top: 20px; font-weight: bold;">
+            Час: 60 секунд
+        </div>
+
+        <div class="slider" id="mySlider">
+            <div class="slider-wrapper"></div>
+
+            <div class="dots-container"></div>
+            <button class="prev-btn">Назад</button>
+            <button class="next-btn">Вперед</button>
+        </div>
+    </div>
+
+    <div id="gameBoard" class="game-board" style="display: none;"></div>
+
+    <script src="./main.js"></script>
 </body>
+
 </html>
