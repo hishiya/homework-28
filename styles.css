@@ -1,0 +1,20 @@
+.slider {
+    width: 300px;
+    margin: 50px auto;
+    text-align: center;
+    overflow: hidden; /* Ховаємо все, що вилазить за межі */
+}
+.slider-wrapper {
+    display: flex; /* Слайди в рядок */
+    transition: transform 0.3s ease; /* Плавність руху */
+}
+.slide {
+    min-width: 100%; /* Кожен слайд займає всю ширину */
+    height: 200px;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
