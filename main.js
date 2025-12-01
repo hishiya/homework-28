@@ -8,9 +8,7 @@ class Slider {
     constructor(selector) {
         this.slider = document.querySelector(selector);
         this.wrapper = this.slider.querySelector('.slider-wrapper');
-        
         this.slides = this.slider.querySelectorAll('.slide');
-        
         this.nextBtn = this.slider.querySelector('.next-btn');
         this.prevBtn = this.slider.querySelector('.prev-btn');
 
@@ -50,9 +48,7 @@ class Slider {
             const dot = document.createElement('div');
             dot.classList.add('dot');
             if (index === 0) dot.classList.add('active');
-            
             dot.addEventListener('click', () => this.goToSlide(index));
-            
             this.dotsContainer.appendChild(dot);
             this.dots.push(dot);
         });
@@ -101,11 +97,23 @@ class AutoSlider extends Slider {
 class Game {
     constructor(duration) {
         this.timerElement = document.querySelector('#gameTimer');
-        this.timeLeft = duration;
-        this.timerId = null;
         this.gameBoard = document.querySelector('#gameBoard');
         this.sliderElement = document.querySelector('#mySlider');
-        this.currentStep = 1;
+
+        this.livesDisplay = document.querySelector('#livesDisplay');
+        
+        this.finishBtn = document.querySelector('#finishEarlyBtn');
+        const newFinishBtn = this.finishBtn.cloneNode(true);
+        this.finishBtn.parentNode.replaceChild(newFinishBtn, this.finishBtn);
+        this.finishBtn = newFinishBtn;
+        this.finishBtn.addEventListener('click', () => this.endGame());
+
+        this.timeLeft = duration;
+        this.timerId = null;
+        
+        this.currentStep = 1; 
+        this.lives = 3; 
+
         this.startTimer();
     }
 
@@ -124,9 +132,22 @@ class Game {
     endGame() {
         clearInterval(this.timerId);
         this.timerElement.innerText = 'Час вийшов! Віднови порядок!';
-        this.sliderElement.style.display = 'none';
+        
+        document.querySelector('#gameContainer').style.display = 'none';
+        
         this.gameBoard.style.display = 'flex';
+        this.livesDisplay.style.display = 'block';
+        this.updateLivesUI();
+
         this.createCards();
+    }
+
+    updateLivesUI() {
+        let hearts = "";
+        for (let i = 0; i < this.lives; i++) {
+            hearts += "❤️ ";
+        }
+        this.livesDisplay.innerText = `Життя: ${hearts}`;
     }
 
     createCards() {
@@ -153,7 +174,7 @@ class Game {
     }
 
     checkClick(cardElement, cardId) {
-        if (cardElement.classList.contains('correct')) return;
+        if (this.lives <= 0 || cardElement.classList.contains('correct')) return;
 
         const totalSlides = document.querySelectorAll('.slide').length;
 
@@ -162,14 +183,21 @@ class Game {
             this.currentStep++;
 
             if (this.currentStep > totalSlides) {
-                this.timerElement.innerText = "🎉 ПЕРЕМОГА!";
-                this.timerElement.style.color = "green";
+                this.livesDisplay.innerHTML = "<span style='color: green'>🎉 ТИ ВИГРАВ! 🎉</span>";
             }
+
         } else {
             cardElement.classList.add('wrong');
-            setTimeout(() => {
-                cardElement.classList.remove('wrong');
-            }, 500);
+            this.lives--;
+            this.updateLivesUI();
+
+            if (this.lives <= 0) {
+                this.livesDisplay.innerHTML = "<span style='color: black'>💀 ГРА ЗАКІНЧЕНА! Ти програв.</span>";
+            } else {
+                setTimeout(() => {
+                    cardElement.classList.remove('wrong');
+                }, 500);
+            }
         }
     }
 }
@@ -180,11 +208,10 @@ function generateSlides(count) {
 
     const selectedEmojis = allEmojis.slice(0, count);
 
-    selectedEmojis.forEach((emoji, index) => {
+    selectedEmojis.forEach((emoji) => {
         const div = document.createElement('div');
         div.classList.add('slide');
         div.innerText = emoji;
-        div.dataset.id = index + 1;
         wrapper.appendChild(div);
     });
 }
@@ -192,8 +219,13 @@ function generateSlides(count) {
 function shuffleDomSlides() {
     const wrapper = document.querySelector('.slider-wrapper');
     const slides = Array.from(wrapper.querySelectorAll('.slide'));
+
     slides.sort(() => Math.random() - 0.5);
-    slides.forEach(slide => wrapper.appendChild(slide));
+
+    slides.forEach((slide, index) => {
+        wrapper.appendChild(slide);
+        slide.dataset.id = index + 1; 
+    });
 }
 
 const startBtn = document.querySelector('#startBtn');
@@ -222,6 +254,6 @@ startBtn.addEventListener('click', () => {
         slider.refreshWidth();
     }, 50);
 
-    const gameTime = 60; 
+    const gameTime = count * 2; 
     new Game(gameTime);
 });
