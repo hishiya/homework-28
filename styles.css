@@ -8,7 +8,7 @@ body {
     min-height: 100vh;
 }
 
-.start-screen {
+.start-screen, .result-screen {
     position: fixed;
     top: 0;
     left: 0;
@@ -22,44 +22,18 @@ body {
     z-index: 100;
 }
 
-.start-screen h1 {
+.start-screen h1, .result-screen h1 {
     font-size: 40px;
     color: #333;
     margin-bottom: 10px;
-}
-
-.stats-box {
-    background: white;
-    padding: 15px 25px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
     text-align: center;
-    width: 300px;
-    border: 1px solid #ddd;
 }
 
-.stats-box h3 {
-    margin: 0 0 10px 0;
-    color: #333;
+#resultMessage {
     font-size: 20px;
-}
-
-.stats-box hr {
-    border: 0;
-    border-top: 1px solid #eee;
-    margin: 10px 0;
-}
-
-.stat-item {
-    font-size: 16px;
-    margin: 5px 0;
-    color: #444;
-}
-
-.highlight {
-    color: #28a745;
-    font-weight: bold;
+    color: #555;
+    margin-bottom: 30px;
+    text-align: center;
 }
 
 .difficulty-container {
@@ -101,7 +75,7 @@ body {
     border-radius: 50px;
     cursor: pointer;
     transition: transform 0.2s, background-color 0.2s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
 
 .start-btn:hover {
@@ -109,6 +83,22 @@ body {
     transform: scale(1.05);
 }
 
+.finish-btn {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.finish-btn:hover { 
+    background-color: #0056b3; 
+}
 
 .slider {
     width: 300px;
@@ -117,7 +107,7 @@ body {
     overflow: hidden;
     background: #fff;
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 .slider-wrapper {
@@ -137,13 +127,11 @@ body {
     user-select: none;
 }
 
-
-.prev-btn,
-.next-btn {
+.prev-btn, .next-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0,0,0,0.5);
     color: white;
     border: none;
     padding: 15px 10px;
@@ -152,44 +140,12 @@ body {
     z-index: 10;
 }
 
-.finish-btn {
-    display: block;
-    margin: 10px auto;
-    /* Центруємо */
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: #007bff;
-    /* Синій колір */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
+.prev-btn { left: 0; }
+.next-btn { right: 0; }
 
-#livesDisplay {
-    color: #d9534f; /* Червоний колір */
-    font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+.prev-btn:hover, .next-btn:hover { 
+    background: rgba(0,0,0,0.8); 
 }
-
-.finish-btn:hover {
-    background-color: #0056b3;
-}
-
-.prev-btn {
-    left: 0;
-}
-
-.next-btn {
-    right: 0;
-}
-
-.prev-btn:hover,
-.next-btn:hover {
-    background: rgba(0, 0, 0, 0.8);
-}
-
 
 .dots-container {
     position: absolute;
@@ -203,7 +159,7 @@ body {
 .dot {
     width: 10px;
     height: 10px;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0,0,0,0.3);
     border-radius: 50%;
     cursor: pointer;
 }
@@ -213,7 +169,6 @@ body {
     transform: scale(1.2);
 }
 
-
 #gameTimer {
     font-size: 28px;
     font-weight: bold;
@@ -221,6 +176,11 @@ body {
     color: #333;
 }
 
+#livesDisplay {
+    color: #d9534f;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
 
 .game-board {
     display: flex;
@@ -246,13 +206,13 @@ body {
     user-select: none;
 }
 
-.card.correct {
-    background: #d4edda;
-    border-color: green;
-    pointer-events: none;
+.card.correct { 
+    background: #d4edda; 
+    border-color: green; 
+    pointer-events: none; 
 }
 
-.card.wrong {
-    background: #f8d7da;
-    border-color: red;
+.card.wrong { 
+    background: #f8d7da; 
+    border-color: red; 
 }
